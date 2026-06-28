@@ -2,8 +2,18 @@ import React from "react";
 import { FaRobot } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../utils/firebase";
 
 function Auth() {
+    const handleGooglAuth = async ()=>{
+        try {
+            const response = await signInWithPopup(auth,provider)
+            console.log(response.user.displayName)
+        } catch (error) {
+            console.log("Error in firebase setup!",error)
+        }
+    }
   return (
     <div className="w-full min-h-screen bg-[#f3f3f3] flex items-center justify-center px-5 py-20">
       <div className="w-full max-w-md p-8 rounded-3xl bg-white shadow-2xl border border-gray-200">
@@ -37,7 +47,7 @@ function Auth() {
         </p>
 
         {/* Google Button */}
-        <button
+        <button onClick={handleGooglAuth}
           
           className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-xl py-3.5 font-semibold text-gray-700 hover:bg-gray-50 hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-300"
         >
