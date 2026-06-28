@@ -4,12 +4,20 @@ import { IoSparkles } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
+import axios from "axios";
+import { serverUrl } from "../App";
 
 function Auth() {
     const handleGooglAuth = async ()=>{
         try {
             const response = await signInWithPopup(auth,provider)
-            console.log(response.user.displayName)
+            let user = response.user
+            let name=user.displayName
+            let email = user.email
+
+            const result = await axios.post(serverUrl+'/api/auth/google',{name,email},{withCredentials:true})
+
+            console.log(result.data)
         } catch (error) {
             console.log("Error in firebase setup!",error)
         }
